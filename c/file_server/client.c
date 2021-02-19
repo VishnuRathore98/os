@@ -2,7 +2,10 @@
 	This is a client program that can request a file from the server.
 */
 
-#include <stdio.h>
+#include <stdio.h>	// For printf();
+#include <string.h>	// For memset();
+#include <unistd.h>	// For read(), write(), close();
+#include <stdlib.h>	// For exit();
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -13,7 +16,7 @@
 
 void fatal(char *string);
 
-int main(int argc, char *argv)
+int main(int argc, char **argv)
 {
 	int c, s, bytes;
 	char buf[BUF_SIZE];
@@ -46,7 +49,7 @@ int main(int argc, char *argv)
 	}
 }
 
-fatal(char *string)
+void fatal(char *string)
 {
 	printf("%s\n", string);
 	exit(1);
