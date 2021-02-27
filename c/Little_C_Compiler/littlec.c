@@ -1,4 +1,4 @@
-/* A Little C Compiler. */
+/* A Little C Interpreter. */
 
 #include <stdio.h>
 #include <setjmp.h>
