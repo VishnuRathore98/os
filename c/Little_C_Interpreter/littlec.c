@@ -80,5 +80,52 @@ int lvartos;		/* index into local variable stack */
 int ret_value;		/* function return value. */
 
 void print(void), prescan(void);
+void decl_global (void), call(void), putback(void);
+void decl_local (void), local_push (struct var_type i);
+void eval_exp (int *value), sntx_err(int error);
+void exec_if (void), find_eob (void), exec_for(void);
+void get_params (void), get_args (void);
+void exec_while (void), func_push (int i), exec_do(void);
+void assign_var (char *var_name, int value);
+int load_program (char *p, char *fname), find_var(char *s);
+void interp_block (void), func_ret (void);
+int func_pop (void), is_var (char *s), get_token (void);
+char *find_func (char *name);
+
+int main (int argc, char *argv[])
+{
+	if (argc != 2)
+	{
+		printf("Usage: littlec <filename>\n");
+		exit(1);
+	}
+
+	/* allocate memory for the program. */
+	if ((p_buf = (char *) malloc(PROG_SIZE)) == NULL)
+	{
+		printf("Allocation Failure\n");
+		exit(1);
+	}
+
+	/* load the program to execute. */
+	if ( !load_program(p_buf, argv[1]) ) exit(1);
+	if (setjmp(e_buf)) exit(1);  /* initialize long jump buffer. */
+
+	gvar_index = 0;  /* initialize global variable index. */
+
+	/* set program pointer to start of the program buffer. */
+	prog = p_buf;
+
+	/* find the location of all functions and global variable in the program. */
+	prescan(); 
+
+	lvartos = 0; /* initialize local variable stack index. */
+	functos = 0; /* initialize the CALL stack index. */
+
+	/* setup call to main(). */
+	prog = find_func("main"); /* find program starting point. */
+
+
+}
 
 
